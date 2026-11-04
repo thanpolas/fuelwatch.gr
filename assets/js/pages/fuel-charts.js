@@ -132,7 +132,11 @@ function renderPriceCards(data) {
 
 // ---- Chart Factory ----
 
-function mountChart(containerId, opts, data, defaultRange) {
+/**
+ * @param {object} [rangeLink] - optional shared range (e.g. `historyRange`); range clicks on
+ *   this chart are applied to every other chart linked to it.
+ */
+function mountChart(containerId, opts, data, defaultRange, rangeLink) {
   const container = document.getElementById(containerId);
   if (!container) return null;
 
@@ -151,7 +155,11 @@ function mountChart(containerId, opts, data, defaultRange) {
   ro.observe(container);
 
   // Range buttons
-  createRangeButtons(container, chart, data[0], defaultRange);
+  const setRange = createRangeButtons(
+    container, chart, data[0], defaultRange,
+    rangeLink && ((key) => rangeLink.set(containerId, key)),
+  );
+  rangeLink?.link(containerId, setRange);
 
   // Double-click to reset
   chart.over.addEventListener("dblclick", () => {
@@ -190,6 +198,27 @@ const fuelState = {
 
 // ---- Section 2: Price History Charts ----
 
+/** Shared time range for the two Price History charts: picking 1M on one sets 1M on the other. */
+const historyRange = {
+  key: "1Y",
+  setters: {},
+  syncing: false,
+  /** Register (or replace, after a chart rebuild) a chart's range setter. */
+  link(id, setRange) { this.setters[id] = setRange; },
+  set(sourceId, key) {
+    this.key = key;
+    if (this.syncing) return; // the echo from a linked chart; already applied
+    this.syncing = true;
+    try {
+      for (const [id, setRange] of Object.entries(this.setters)) {
+        if (id !== sourceId) setRange(key);
+      }
+    } finally {
+      this.syncing = false;
+    }
+  },
+};
+
 function renderHistoryCharts(data) {
   const { timestamps, brent, brent_eur } = data.series;
   const hasFx = brent_eur && brent_eur.some((v) => v != null);
@@ -227,7 +256,8 @@ function renderHistoryCharts(data) {
     "chart-unleaded95",
     fuelChartOpts("unleaded_95"),
     [timestamps, data.series.unleaded_95],
-    "1Y",
+    historyRange.key,
+    historyRange,
   );
 
   // Fuel selector pills
@@ -279,7 +309,8 @@ function renderHistoryCharts(data) {
         "chart-unleaded95",
         fuelChartOpts(key),
         [timestamps, data.series[key]],
-        "1Y",
+        historyRange.key,
+        historyRange,
       );
 
       // Re-inject fuel pills into new range buttons row
@@ -331,7 +362,8 @@ function renderHistoryCharts(data) {
     "chart-brent",
     brentChartOpts(defaultEur),
     [timestamps, defaultEur ? brent_eur : brent],
-    "1Y",
+    historyRange.key,
+    historyRange,
   );
 
   if (brentTitleEl) {
@@ -390,7 +422,11 @@ function renderHistoryCharts(data) {
       });
       ro.observe(container);
 
-      createRangeButtons(container, brentChart, timestamps, "1Y");
+      const setRange = createRangeButtons(
+        container, brentChart, timestamps, historyRange.key,
+        (key) => historyRange.set("chart-brent", key),
+      );
+      historyRange.link("chart-brent", setRange);
 
       // Re-inject FX buttons into the new range row
       const newRangeBtns = container.querySelector(".fuel-range-btns");

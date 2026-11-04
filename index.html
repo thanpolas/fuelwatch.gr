@@ -1,0 +1,191 @@
+---
+layout: default
+title: "fuelwatch.gr · Τιμές Καυσίμων Ελλάδας"
+description: "Ημερήσιες τιμές βενζίνης και πετρελαίου στην Ελλάδα, σε σύγκριση με τη διεθνή τιμή αργού πετρελαίου Brent."
+page_js: fuel-charts
+permalink: /
+---
+
+<!-- SECTION 1: Today's Prices -->
+<section class="fuel-section" id="prices">
+  <div class="fuel-hero-card" id="fuel-hero">
+    <div class="fuel-chart-skeleton" style="height:140px" id="fuel-hero-skeleton"></div>
+  </div>
+
+  <div class="fuel-cards" id="fuel-secondary-cards">
+    <div class="fuel-chart-skeleton" style="height:100px"></div>
+    <div class="fuel-chart-skeleton" style="height:100px"></div>
+    <div class="fuel-chart-skeleton" style="height:100px"></div>
+  </div>
+
+  <p class="fuel-updated" id="fuel-updated"></p>
+</section>
+
+<!-- SECTION 2: Price History -->
+<section class="fuel-section" id="history">
+  <h2 class="fuel-section-title">Ιστορικό Τιμών</h2>
+
+  <div class="fuel-charts-row">
+    <div class="fuel-chart-wrap">
+      <div class="fuel-chart-title" id="fuel-chart-title">Αμόλυβδη 95 (EUR/λίτρο)</div>
+      <div class="fuel-chart-container" id="chart-unleaded95">
+        <div class="fuel-chart-skeleton"></div>
+      </div>
+    </div>
+
+    <div class="fuel-chart-wrap">
+      <div class="fuel-chart-title" id="brent-chart-title">Brent Crude (USD/βαρέλι)</div>
+      <div class="fuel-chart-container" id="chart-brent">
+        <div class="fuel-chart-skeleton"></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="fuel-chart-note">* Το Brent εμφανίζεται προσαρμοσμένο σε ευρώ (μέσω ημερήσιας ισοτιμίας EUR/USD), ώστε η σύγκριση με την τιμή αντλίας να γίνεται στην ίδια νομισματική βάση.</p>
+</section>
+
+<!-- SECTION 3: Daily Comparison -->
+<section class="fuel-section" id="comparison">
+  <h2 class="fuel-section-title">Πόσο Ακολουθεί η Αντλία το Αργό;</h2>
+
+  <div class="fuel-analysis-intro">
+    <p>Ημερήσια ποσοστιαία μεταβολή τιμής στην αντλία (<strong style="color:#e63946">κόκκινο</strong>, αριστερός άξονας) και αργού πετρελαίου (<strong style="color:#2a9d8f">πράσινο</strong>, δεξιός άξονας). Εξομαλυμένο με μέσο όρο 5 ημερών. Πατήστε «Ημερήσια δεδομένα» για τα ακατέργαστα στοιχεία.</p>
+    <p class="fuel-chart-note">Προσοχή: οι δύο άξονες έχουν διαφορετική κλίμακα. Η οπτική σύγκριση μεγεθών μεταξύ τους δεν είναι ακριβής. Η γραμμή «Διαφορά» στο tooltip δείχνει την πραγματική απόκλιση.</p>
+  </div>
+
+  <div class="fuel-chart-wrap">
+    <div class="fuel-chart-container" id="chart-daily-pct">
+      <div class="fuel-chart-skeleton"></div>
+    </div>
+    <p class="fuel-chart-note fuel-lag-hint">Δοκιμάστε καθυστέρηση λίγων ημερών για να δείτε αν η αντλία ακολουθεί αργότερα το Brent.</p>
+  </div>
+</section>
+
+<!-- SECTION 4: Rockets and Feathers -->
+<section class="fuel-section" id="analysis">
+  <h2 class="fuel-section-title">Ρουκέτες και Φτερά</h2>
+
+  <div class="fuel-analysis-intro">
+    <p>Το παρακάτω διάγραμμα αθροίζει τη «Διαφορά» του παραπάνω: (μεταβολή αντλίας %) μείον (μεταβολή αργού %), ημέρα με ημέρα. Πάνω από το 0 = η αντλία αυξάνεται περισσότερο. Κάτω = λιγότερο. Μηδενίζεται στην αρχή κάθε περιόδου.</p>
+  </div>
+
+  <div id="fuel-spread-annotation"></div>
+
+  <div class="fuel-chart-wrap">
+    <div class="fuel-chart-container" id="chart-cumulative">
+      <div class="fuel-chart-skeleton"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: Brent vs ΔΕΠ -->
+<section class="fuel-section" id="brent-dep">
+  <h2 class="fuel-section-title">Brent vs Τιμές Διυλιστηρίου (ΔΕΠ)</h2>
+
+  <div class="fuel-analysis-intro">
+    <p>Σύγκριση μεταξύ τιμής αργού πετρελαίου Brent (<strong style="color:#2a9d8f">πράσινο</strong>, δεξιός άξονας, EUR/βαρέλι) και τιμής διυλιστηρίου ΔΕΠ (<strong style="color:#d4a017">χρυσό</strong>, αριστερός άξονας, EUR/λίτρο, με φόρους και ΦΠΑ). Δείχνει πόσο γρήγορα και πιστά μεταφέρεται η τιμή του αργού στη χονδρική τιμή.</p>
+  </div>
+
+  <div class="fuel-chart-wrap">
+    <div class="fuel-chart-title" id="brent-dep-chart-title">Αμόλυβδη 95 -- Brent vs ΔΕΠ</div>
+    <div class="fuel-chart-container" id="chart-brent-dep">
+      <div class="fuel-chart-skeleton"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: ΔΕΠ vs Retail -->
+<section class="fuel-section" id="dep-retail">
+  <h2 class="fuel-section-title">Τιμές Διυλιστηρίου vs Λιανική</h2>
+
+  <div class="fuel-analysis-intro">
+    <p>Σύγκριση μεταξύ τιμής διυλιστηρίου ΔΕΠ (<strong style="color:#d4a017">χρυσό</strong>, με ΦΠΑ) και τιμής αντλίας (<strong style="color:#e63946">κόκκινο</strong>). Η διαφορά αντιπροσωπεύει το περιθώριο κέρδους του πρατηριούχου και τα κόστη μεταφοράς/διανομής. Πηγή χονδρικής: <a href="https://oil.gge.gov.gr" target="_blank" rel="noopener">oil.gge.gov.gr</a>.</p>
+  </div>
+
+  <div class="fuel-chart-wrap">
+    <div class="fuel-chart-title" id="dep-retail-chart-title">Αμόλυβδη 95 -- ΔΕΠ vs Λιανική (EUR/λίτρο)</div>
+    <div class="fuel-chart-container" id="chart-dep-retail">
+      <div class="fuel-chart-skeleton"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 7: EU Comparison -->
+<section class="fuel-section" id="eu-comparison">
+  <h2 class="fuel-section-title">Σύγκριση με ΕΕ</h2>
+
+  <div class="fuel-analysis-intro">
+    <p>Σύγκριση με μέσο όρο ΕΕ και επιλεγμένες χώρες αναφοράς. Εβδομαδιαία δεδομένα από το Weekly Oil Bulletin της Ευρωπαϊκής Επιτροπής.</p>
+  </div>
+
+  <div class="fuel-chart-wrap">
+    <div class="fuel-chart-title" id="eu-chart-title">Αμόλυβδη 95 (EUR/λίτρο)</div>
+    <div class="fuel-chart-container" id="chart-eu-comparison">
+      <div class="fuel-chart-skeleton"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: Open Data -->
+<section class="fuel-section" id="data">
+  <h2 class="fuel-section-title">Ανοιχτά Δεδομένα: Κατεβάστε τα</h2>
+
+  <p>Όλα τα δεδομένα που χρησιμοποιούμε είναι ελεύθερα διαθέσιμα. Μπορείτε να τα κατεβάσετε και να τα αναλύσετε μόνοι σας.</p>
+
+  <ul class="fuel-downloads">
+    <li class="fuel-download-item">
+      <a class="fuel-download-link" href="{{ site.data_url }}/fuel_prices.csv" download>
+        <i class="bx bx-download" aria-hidden="true"></i>
+        Τιμές καυσίμων Ελλάδας (CSV)
+      </a>
+    </li>
+    <li class="fuel-download-item">
+      <a class="fuel-download-link" href="{{ site.data_url }}/brent_prices.csv" download>
+        <i class="bx bx-download" aria-hidden="true"></i>
+        Τιμές Brent Crude (CSV)
+      </a>
+    </li>
+    <li class="fuel-download-item">
+      <a class="fuel-download-link" href="{{ site.data_url }}/eurusd_prices.csv" download>
+        <i class="bx bx-download" aria-hidden="true"></i>
+        Ισοτιμία EUR/USD (CSV)
+      </a>
+    </li>
+    <li class="fuel-download-item">
+      <a class="fuel-download-link" href="{{ site.data_url }}/eu_prices.csv" download>
+        <i class="bx bx-download" aria-hidden="true"></i>
+        Τιμές καυσίμων ΕΕ (CSV)
+      </a>
+    </li>
+    <li class="fuel-download-item">
+      <a class="fuel-download-link" href="{{ site.data_url }}/dep_prices.csv" download>
+        <i class="bx bx-download" aria-hidden="true"></i>
+        Τιμές διυλιστηρίου ΔΕΠ (CSV)
+      </a>
+    </li>
+    <li class="fuel-download-item">
+      <a class="fuel-download-link" href="{{ site.data_url }}/fuel-chart.json" download>
+        <i class="bx bx-download" aria-hidden="true"></i>
+        Ενοποιημένα δεδομένα ανάλυσης (JSON)
+      </a>
+    </li>
+  </ul>
+
+  <div class="fuel-methodology">
+    <p><strong>Τι δείχνουν τα γραφήματα:</strong> Το Brent είναι δείκτης τιμής αργού πετρελαίου, όχι η τελική τιμή του καυσίμου στην αντλία. Η αντλία επηρεάζεται με καθυστέρηση και από διαφορετικά στάδια της αλυσίδας αγοράς. Τα γραφήματα βοηθούν στη σύγκριση της πορείας των τιμών, όχι στην απόδοση αιτίας από μόνα τους.</p>
+
+    <details class="fuel-methodology-details">
+      <summary>Περισσότερα για τη μεθοδολογία</summary>
+      <ul>
+        <li>Το Brent crude αποτελεί διεθνές σημείο αναφοράς για το αργό πετρέλαιο. Δεν αντιστοιχεί στο τελικό προϊόν που πωλείται στην αντλία.</li>
+        <li>Οι τιμές αντλίας δεν αντιδρούν άμεσα στις μεταβολές του αργού. Η καθυστέρηση εξαρτάται από αποθέματα, συμβόλαια προμήθειας και εμπορικές αποφάσεις.</li>
+        <li>Τα futures του Brent και οι λιανικές τιμές ανήκουν σε διαφορετικά στάδια της εφοδιαστικής αλυσίδας.</li>
+        <li>Η προσαρμογή σε ευρώ (EUR/USD) βελτιώνει τη συγκρισιμότητα, αλλά δεν εξαλείφει όλες τις δομικές διαφορές μεταξύ αργού και λιανικής τιμής.</li>
+      </ul>
+    </details>
+
+    <p><strong>Πηγές δεδομένων:</strong> Τιμές καυσίμων από <a href="https://www.fuelprices.gr/deltia_d.view" target="_blank" rel="noopener">fuelprices.gr</a> (Υπουργείο Ανάπτυξης). Τιμές Brent crude από <a href="https://fred.stlouisfed.org/series/DCOILBRENTEU" target="_blank" rel="noopener">FRED</a> (Federal Reserve Bank of St. Louis). Ισοτιμία EUR/USD από <a href="https://fred.stlouisfed.org/series/DEXUSEU" target="_blank" rel="noopener">FRED</a> (σειρά DEXUSEU). Τιμές διυλιστηρίου (ΔΕΠ) από <a href="https://oil.gge.gov.gr" target="_blank" rel="noopener">oil.gge.gov.gr</a> (Γεν. Γραμμ. Εμπορίου), μέσω <a href="https://github.com/akosiaris/greek-oil-refinery-prices" target="_blank" rel="noopener">akosiaris/greek-oil-refinery-prices</a>. Ευρωπαϊκές τιμές καυσίμων από το <a href="https://energy.ec.europa.eu/data-and-analysis/weekly-oil-bulletin_en" target="_blank" rel="noopener">Weekly Oil Bulletin</a> (Ευρωπαϊκή Επιτροπή).</p>
+    <p><strong>Συχνότητα ενημέρωσης:</strong> Ημερήσια δεδομένα για Ελλάδα και Brent. Εβδομαδιαία δεδομένα για ευρωπαϊκή σύγκριση (Weekly Oil Bulletin).</p>
+    <p><strong>Άδεια:</strong> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>, ελεύθερη χρήση με αναφορά.</p>
+  </div>
+</section>

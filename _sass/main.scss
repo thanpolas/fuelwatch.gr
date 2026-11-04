@@ -1,0 +1,22 @@
+// ============================================================================
+// MAIN ENTRY POINT: Import all SCSS partials (order matters)
+// ============================================================================
+
+// ---- 1. Variables & Mixins ----
+@import "variables";
+
+// ---- 2. Reset, Typography, Layout ----
+@import "reset";
+@import "typography";
+@import "layout";
+
+// ---- 3. Components ----
+@import "components/header";
+@import "components/footer";
+@import "components/fuel";
+
+// ---- 4. Utilities ----
+@import "utilities";
+
+// ---- 5. Responsive ----
+@import "responsive";

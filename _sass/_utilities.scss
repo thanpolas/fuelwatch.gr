@@ -1,0 +1,24 @@
+// ============================================================================
+// UTILITIES: Reusable utility classes (margin, padding, text alignment)
+// ============================================================================
+
+.center {
+  text-align: center;
+}
+
+.small {
+  font-size: 0.9rem;
+  color: $color-text-muted;
+}
+
+.not-found {
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+
+  h1 {
+    font-size: 4em;
+    line-height: 1;
+    margin: 2rem 0;
+  }
+}

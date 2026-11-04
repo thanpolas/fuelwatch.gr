@@ -1,0 +1,79 @@
+name: Daily Fuel Data Update
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # 07:00 UTC = 10:00 Athens (summer) / 09:00 (winter)
+  workflow_dispatch: {}     # manual trigger from GitHub UI
+
+env:
+  # S3 bucket holding the accumulated CSV state and the published chart JSON.
+  # Must match `data_url` in _config.yml.
+  DATA_BUCKET: polasreport-data
+  AWS_DEFAULT_REGION: us-west-1
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install poppler (for pdftotext)
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Seed CSVs from S3 (accumulated state)
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          for f in fuel_prices.csv brent_prices.csv eurusd_prices.csv eu_prices.csv; do
+            aws s3 cp "s3://$DATA_BUCKET/$f" "_fuel-pdfs/$f" || echo "  $f not on S3 yet, using repo copy"
+          done
+
+      - name: Fetch today's fuel PDF
+        run: node _scripts/fetch_today_pdf.mjs
+
+      - name: Fetch Brent prices
+        run: node _scripts/fetch_brent_prices.mjs
+
+      - name: Fetch EUR/USD exchange rates
+        run: node _scripts/fetch_eurusd_prices.mjs
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch EU fuel prices
+        run: node _scripts/fetch_eu_prices.mjs
+
+      - name: Fetch ΔΕΠ refinery prices (via akosiaris/greek-oil-refinery-prices)
+        run: node _scripts/fetch_dep_prices.mjs
+
+      - name: Generate JSON + CSVs
+        run: node _scripts/generate_fuel_json.mjs
+
+      - name: Upload to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws s3 cp assets/data/fuel-chart.json s3://$DATA_BUCKET/fuel-chart.json \
+            --content-type application/json \
+            --cache-control "max-age=1800"
+          aws s3 cp assets/data/fuel_prices.csv s3://$DATA_BUCKET/fuel_prices.csv \
+            --content-type "text/csv; charset=utf-8"
+          aws s3 cp assets/data/brent_prices.csv s3://$DATA_BUCKET/brent_prices.csv \
+            --content-type "text/csv; charset=utf-8"
+          aws s3 cp assets/data/eurusd_prices.csv s3://$DATA_BUCKET/eurusd_prices.csv \
+            --content-type "text/csv; charset=utf-8"
+          aws s3 cp assets/data/brent_eur_prices.csv s3://$DATA_BUCKET/brent_eur_prices.csv \
+            --content-type "text/csv; charset=utf-8"
+          aws s3 cp assets/data/eu_prices.csv s3://$DATA_BUCKET/eu_prices.csv \
+            --content-type "text/csv; charset=utf-8"
+          aws s3 cp assets/data/dep_prices.csv s3://$DATA_BUCKET/dep_prices.csv \
+            --content-type "text/csv; charset=utf-8"
+
+

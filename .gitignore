@@ -1,0 +1,17 @@
+_site
+.sass-cache
+.jekyll-cache
+.jekyll-metadata
+vendor
+Gemfile.lock
+.venv
+node_modules
+
+# Fuel PDFs (reproducible, ~1GB)
+_fuel-pdfs/pdfs/
+_fuel-pdfs/deltia.html
+_fuel-pdfs/pdf-urls-3yr.txt
+
+tmp/
+.playwright-mcp/
+.DS_Store

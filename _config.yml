@@ -1,0 +1,45 @@
+# fuelwatch.gr: Jekyll site config.
+# Not reloaded by `jekyll serve`; restart the server after editing.
+
+title: fuelwatch.gr
+tagline: A polasreport.gr production
+description: >-
+  Ημερήσιες τιμές καυσίμων στην Ελλάδα, σε σύγκριση με το αργό πετρέλαιο Brent,
+  τις τιμές διυλιστηρίου και την ΕΕ.
+baseurl: ""
+url: "https://fuelwatch.gr"
+lang: el
+twitter_username: thanpolas_gr
+
+# Parent production site, linked from header and footer.
+parent_site:
+  name: polasreport.gr
+  url: https://polasreport.gr
+
+# Remote data bucket the page reads from in production (local copy is the fallback).
+data_url: https://polasreport-data.s3.us-west-1.amazonaws.com
+
+# GA4 measurement ID. Empty disables analytics.
+google_analytics: ""
+
+plugins:
+  - jekyll-sitemap
+
+exclude:
+  - _scripts/
+  - _fuel-pdfs/
+  - _docs/
+  - node_modules/
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - Dockerfile
+  - docker-compose.yml
+  - README.md
+  - CLAUDE.md
+  - LICENSE
+  - tmp/
+  - .playwright-mcp/
+  - .claude/

@@ -8,5 +8,7 @@ Standalone Jekyll site for Greek fuel prices, split out of the `/fuel` section o
 - Data: pipeline scripts in `_scripts/` write `_fuel-pdfs/*.csv`, then `generate_fuel_json.mjs`
   writes `assets/data/`. Never hand-edit generated CSV/JSON.
 - Remote data base URL lives in one place: `data_url` in `_config.yml` (rendered into a
-  `<meta name="fuel-data-url">` tag). Keep it in sync with `DATA_BUCKET` in the daily workflow.
+  `<meta name="fuel-data-url">` tag).
+- The daily S3 update runs from the sibling `polasreport.gr` repo, not here: it holds the AWS
+  secrets. Pipeline script changes must land there to take effect in production.
 - Local dev: `bundle exec jekyll serve -l` → <http://localhost:4000>. Do not edit `_site/`.

@@ -42,13 +42,10 @@ Sources:
 ## Deployment
 
 - `.github/workflows/jekyll-build.yml`: builds and deploys to GitHub Pages on push to `main`.
-- `.github/workflows/fuel-daily-update.yml`: runs daily at 07:00 UTC. Seeds CSVs from S3, fetches new
-  data, uploads JSON and CSVs back to S3. Needs `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` repo
-  secrets. The bucket is `DATA_BUCKET` in the workflow and must match `data_url` in `_config.yml`.
-
-The daily run does not commit or redeploy; the live page picks up new data from S3.
-Its last step re-enables the workflow through the API, which stops GitHub from auto-disabling the
-schedule after 60 days without repository activity.
+- Daily data update: runs from the `polasreport.gr` repo (`fuel-daily-update.yml`, 07:00 UTC), which
+  holds the AWS secrets. It fetches new data and uploads JSON and CSVs to the S3 bucket that
+  `data_url` in `_config.yml` points to. The live page picks up new data from S3 without a redeploy.
+- The scripts here are the same pipeline, for local runs and refreshing the `assets/data/` fallback.
 
 GitHub Pages source must be **GitHub Actions** (Settings → Pages), not "Deploy from a branch".
 

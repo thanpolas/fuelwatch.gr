@@ -753,7 +753,9 @@ function renderAnalysisCharts(data) {
   const SMA_WINDOW = 5;
   const CLAMP_LIMIT = 8; // cap extreme spikes at ±8%
   const LAG_OPTIONS = [0, 3, 5, 7, 10];
-  let currentLag = 0;
+  // 3 days matches how pump prices actually follow crude better than no lag.
+  const DEFAULT_LAG = 3;
+  let currentLag = DEFAULT_LAG;
 
   /** Shift array forward by N positions (prepend nulls, trim end). */
   function shiftForward(arr, n) {
@@ -964,7 +966,7 @@ function renderAnalysisCharts(data) {
     const lagBtns = {};
     for (const lag of LAG_OPTIONS) {
       const btn = document.createElement("button");
-      btn.className = "fuel-lag-btn" + (lag === 0 ? " active" : "");
+      btn.className = "fuel-lag-btn" + (lag === DEFAULT_LAG ? " active" : "");
       btn.textContent = lag === 0 ? "0" : `${lag}η`;
       btn.addEventListener("click", () => {
         currentLag = lag;

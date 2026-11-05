@@ -47,6 +47,10 @@ Sources:
   secrets. The bucket is `DATA_BUCKET` in the workflow and must match `data_url` in `_config.yml`.
 
 The daily run does not commit or redeploy; the live page picks up new data from S3.
+Its last step re-enables the workflow through the API, which stops GitHub from auto-disabling the
+schedule after 60 days without repository activity.
+
+GitHub Pages source must be **GitHub Actions** (Settings → Pages), not "Deploy from a branch".
 
 ## License
 
